@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071b13">
+  <title>Matrix Football | Calculadora de matrices</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%23071b13%22 stroke=%22%23d9b45b%22 stroke-width=%224%22/><path d=%22M50 25 66 37 60 57 40 57 34 37Z%22 fill=%22%23fff%22 stroke=%22%23071b13%22 stroke-width=%223%22/><path d=%22M50 25V10M66 37l17-5M60 57l10 16M40 57 30 73M34 37l-17-5%22 stroke=%22%23fff%22 stroke-width=%224%22/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="stadium-lights" aria-hidden="true"></div>
+  <main class="app-card">
+    <header class="app-header">
+      <div class="header-top">
+        <span class="badge"><span class="live-dot"></span> TÁCTICA · DATOS · MATEMÁTICAS</span>
+        <button class="gear-btn" id="toggleSettingsBtn" onclick="toggleSettingsMenu()" title="Configurar dimensiones" aria-label="Configurar dimensiones">⚙️</button>
+      </div>
+      <div class="brand">
+        <div class="football-mark" aria-hidden="true">⚽</div>
+        <p class="eyebrow">EL JUEGO TAMBIÉN SE CALCULA</p>
+        <h1>Matrix <span>Football</span></h1>
+        <p class="subtitle">Una cancha de operaciones matriciales</p>
+      </div>
+      <div class="score-strip" aria-label="Características">
+        <div><strong>01</strong><span>Precisión</span></div>
+        <div><strong>02</strong><span>Fracciones</span></div>
+        <div><strong>03</strong><span>Potencias</span></div>
+      </div>
+    </header>
+
+    <section id="configPanel" class="config-panel hidden">
+      <div class="config-title">📐 DIMENSIONES DEL TABLERO</div>
+      <p class="config-help">Elige cuántas filas y columnas tendrá cada matriz (de 1 a 10).</p>
+      <div class="config-inputs-container">
+        <div class="dim-group">
+          <label for="rowsA">Matriz A · Local</label>
+          <div class="select-pair"><input type="number" id="rowsA" value="2" min="1" max="10" aria-label="Filas matriz A" oninput="generateMatrices()"><span>×</span><input type="number" id="colsA" value="2" min="1" max="10" aria-label="Columnas matriz A" oninput="generateMatrices()"></div>
+        </div>
+        <div class="dim-divider"></div>
+        <div class="dim-group">
+          <label for="rowsB">Matriz B · Visitante</label>
+          <div class="select-pair"><input type="number" id="rowsB" value="2" min="1" max="10" aria-label="Filas matriz B" oninput="generateMatrices()"><span>×</span><input type="number" id="colsB" value="2" min="1" max="10" aria-label="Columnas matriz B" oninput="generateMatrices()"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="matrices-container" aria-label="Entrada de matrices">
+      <article class="matrix-card home-card">
+        <div class="team-heading"><span class="team-icon">🟢</span><div><h2>Matriz A</h2><p>EQUIPO LOCAL</p></div><span class="team-tag">LOCAL</span></div>
+        <div class="matrix-wrapper"><div class="matrix-frame"><div id="gridA" class="matrix-grid"></div></div></div>
+        <p class="matrix-tip">Ingresa goles, pases, porcentajes o valores matemáticos.</p>
+      </article>
+      <article class="matrix-card away-card">
+        <div class="team-heading"><span class="team-icon">🔵</span><div><h2>Matriz B</h2><p>EQUIPO VISITANTE</p></div><span class="team-tag">VISITANTE</span></div>
+        <div class="matrix-wrapper"><div class="matrix-frame"><div id="gridB" class="matrix-grid"></div></div></div>
+        <p class="matrix-tip">Usa fracciones y potencias directamente en las casillas.</p>
+      </article>
+    </section>
+
+    <section class="format-guide" aria-label="Formatos aceptados">
+      <div class="guide-title"><span>✎</span><div><strong>FORMATO DE LOS DATOS</strong><small>Escribe los valores directamente en cada casilla</small></div></div>
+      <div class="format-examples">
+        <div><code>3/4</code><span>Fracción</span></div>
+        <div><code>-1/2</code><span>Fracción negativa</span></div>
+        <div><code>2^3</code><span>Potencia</span></div>
+        <div><code>(3/4)^2</code><span>Fracción elevada</span></div>
+        <div><code>(-2)^3</code><span>Base negativa</span></div>
+      </div>
+      <p class="format-note">Las potencias usan el símbolo <strong>^</strong>. Para elevar una fracción, encierra la fracción entre paréntesis, por ejemplo <code>(3/4)^2</code>. También puedes ingresar enteros y decimales.</p>
+    </section>
+
+    <section id="lcdDisplay" class="display-panel" aria-live="polite">
+      <div id="lcdHeader" class="display-status"><span class="status-ball"></span> PIZARRA TÁCTICA · LISTO PARA JUGAR</div>
+      <div id="lcdBody" class="display-body">Ingresa los valores de las matrices y selecciona una operación. ¡Que empiece el partido matemático!</div>
+    </section>
+
+    <section class="operation-section">
+      <div class="section-heading"><span class="heading-line"></span><h2>ELIGE LA JUGADA</h2><span class="heading-line"></span></div>
+      <div class="actions-grid">
+        <button class="btn btn-primary" onclick="calculateSum()"><span>＋</span><span>Suma <small>A + B</small></span></button>
+        <button class="btn btn-primary" onclick="calculateProduct()"><span>×</span><span>Producto <small>A × B</small></span></button>
+        <button class="btn btn-gold" onclick="calculateTranspose('A')"><span>↻</span><span>Transpuesta <small>Matriz A</small></span></button>
+        <button class="btn btn-gold" onclick="calculateTranspose('B')"><span>↻</span><span>Transpuesta <small>Matriz B</small></span></button>
+        <button class="btn btn-gold" onclick="calculateTransposesBoth()"><span>⇄</span><span>Transpuestas <small>Ambas matrices</small></span></button>
+        <button class="btn btn-outline" onclick="getDiagonalsBoth('principal')"><span>↘</span><span>Diagonal principal <small>Ambas matrices</small></span></button>
+        <button class="btn btn-outline" onclick="getDiagonalsBoth('secundaria')"><span>↗</span><span>Diagonal secundaria <small>Ambas matrices</small></span></button>
+        <button class="btn btn-reset" onclick="clearInputs()"><span>⟲</span><span>Reiniciar <small>Limpiar valores</small></span></button>
+      </div>
+    </section>
+    <footer class="app-footer"><span>⚽</span><p><strong>MATRIX FOOTBALL</strong><br>La pasión por el fútbol y la precisión de las matemáticas, en un solo campo.</p><span>⚽</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
