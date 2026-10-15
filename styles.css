@@ -886,3 +886,124 @@ input[type=number]:focus {
         font-size: 1.3rem
     }
 }
+
+
+/* =========================================
+   MATRIX FOOTBALL — FORMATO MATEMÁTICO
+   ========================================= */
+
+/* Cada casilla puede mostrar su resultado debajo */
+.matrix-cell-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+.matrix-cell-wrapper .matrix-cell {
+    width: 100%;
+    min-width: 0;
+}
+
+.cell-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 25px;
+    width: 100%;
+    padding: 3px 0;
+    color: var(--gold2);
+    font-size: .78rem;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* Fracciones verticales: numerador / denominador */
+.math-fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    vertical-align: middle;
+    margin: 3px 5px;
+    text-align: center;
+    line-height: 1.2;
+    font-size: .95em;
+    font-weight: 600;
+}
+
+.math-numerator {
+    display: block;
+    padding: 0 5px 3px;
+    border-bottom: 1.5px solid currentColor;
+}
+
+.math-denominator {
+    display: block;
+    padding: 3px 5px 0;
+}
+
+.math-integer {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Tabla de resultados con fracciones */
+.result-table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    margin: 4px auto;
+}
+
+.result-table td {
+    min-width: 40px;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Resaltar las diagonales */
+.result-table td.highlight-diagonal {
+    background: #d9b45b21;
+    color: var(--gold2);
+    border-color: #d9b45b99;
+}
+
+/* Botones de conversión */
+.conversion-tools {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.conversion-tools .btn {
+    max-width: 100%;
+}
+
+/* Ajustes para celulares */
+@media (max-width: 480px) {
+    .math-fraction {
+        font-size: .85em;
+        margin: 2px;
+    }
+
+    .result-table {
+        border-spacing: 3px;
+    }
+
+    .result-table td {
+        min-width: 30px;
+        padding: 5px;
+    }
+
+    .conversion-tools {
+        flex-direction: column;
+    }
+
+    .conversion-tools .btn {
+        width: 100%;
+    }
+}
